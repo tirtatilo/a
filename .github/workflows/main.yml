@@ -1,20 +1,31 @@
-name: kontol  
-   
-on: [workflow_dispatch]  
-   
-jobs:  
-  build:  
-    name: kontol  
-    runs-on: windows-latest  
-    strategy:  
-      max-parallel: 1  
-      fail-fast: false  
-      matrix:  
-        go: [1.0]  
-        flag: [A, B ]  
-    env:  
-        NUM_JOBS: 5  
-        JOB: ${{ matrix.go }}  
-    steps:  
-    - name: DOWNLOAD  
-      run:
+name: CI-Progres
+on: [push, pull_request]
+jobs:
+  build:
+    name: CI for Matrix
+    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        go: [1.1]
+        flag: [A, B]
+    env:
+        NUM_JOBS: 2
+        JOB: ${{ matrix.go }}
+    steps:
+    - name: Set up Go ${{ matrix.go }}
+      uses: actions/setup-go@v1
+      with:
+        go-version: ${{ matrix.go }}
+      id: go
+    - name: Rerun
+      uses: nick-invision/retry@v2
+      continue-on-error: true
+      with:
+        timeout_seconds: 300
+        max_attempts: 10
+        retry_wait_seconds: 5
+        retry_on: timeout
+        command: | lscpu
+             echo lscpu
